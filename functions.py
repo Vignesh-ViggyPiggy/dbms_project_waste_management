@@ -14,7 +14,7 @@ from random import randint
 mycursor = connect.database.cursor()
 
 def captcha_image_maker(captcha_string):
-    image = ImageCaptcha()
+    image = ImageCaptcha(fonts=["Images\\JandaRomantic.ttf","Images\\Cloudee-JR6wo.otf","Images\\DroidSansMono.ttf","Images\\Moms_typewriter.ttf"])
     image_data = image.generate(captcha_string)
     image.write(captcha_string,"Images\\captcha_image.png")
 
@@ -87,7 +87,7 @@ def report_submit(attack_username,defend_username,report_content):
 
 def home_screen_welcome_image(username):
     image_select_dict = {"Admin":"Images\\admin_wid.png","Client":"Images\\client_wid.png","Worker":"Images\\worker_bg_wid.png"}
-    font = ImageFont.truetype("Images\\JandaRomantic.ttf",60)
+    font = ImageFont.truetype("Images\Cloudee-JR6wo.otf",60)
     background_query = "select Account_type from login where Username = '{a}';".format(a=username)
     mycursor.execute(background_query)
     background_check = mycursor.fetchall()[0][0]

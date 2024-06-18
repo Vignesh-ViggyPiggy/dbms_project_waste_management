@@ -274,7 +274,7 @@ def worker_screen(Username):
     frame.place(x=0,y=0)
     bg_image = CTkImage(dark_image=Image.open("Images\\worker_bg.jpg"),light_image=Image.open("Images\\worker_bg.jpg"), size=(1000,580))
     CTkLabel(master=frame, text="", image=bg_image).pack(expand=True, side="left")
-    welcome_back_image = CTkImage(dark_image=Image.open("Images\\welcome_back.png"),light_image=Image.open("Images\\welcome_back.png"),size=(500,100))
+    welcome_back_image = CTkImage(dark_image=Image.open("Images\\welcome_back.png"),light_image=Image.open("Images\\welcome_back.png"),size=(450,100))
     CTkLabel(master=frame, text="", image=welcome_back_image).place(x=500,y=30)
     CTkButton(master=frame, text="LOGOUT", fg_color="#812137", hover_color="#E73960", font=("Arial Bold", 16), text_color="#FFCCC4", width=200,height=50,command=login_screen,bg_color="#FFCCC4").place(x=620,y=470)
     CTkButton(master=frame, text="EXTRA INFORMATION", fg_color="#812137", hover_color="#E73960", font=("Arial Bold", 16), text_color="#FFCCC4", width=200,height=50,command=lambda:extra_information_screen(Username),bg_color="#FFCCC4").place(x=620,y=270)
