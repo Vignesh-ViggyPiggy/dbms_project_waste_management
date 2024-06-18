@@ -53,6 +53,9 @@ def matching_scheduler():
             updating_query = "update matching set worker_username = '{b}' where client_username = '{a}';".format(a=list_clients[client_number][0],b=list_workers[worker_number_scheduled][0])
             mycursor.execute(updating_query)
             database.commit()
+    mycursor.close()
+    database.close()
+
 
 def garbage_throw(username,garbage_amt):
     database = connect.database_connect()
@@ -73,6 +76,9 @@ def garbage_throw(username,garbage_amt):
         database.commit()
         messagebox.showinfo("Success","Please wait for collection of garbage")
         screens.garbage_throw_screen(username)
+    mycursor.close()
+    database.close()
+
 
 def report_submit(attack_username,defend_username,report_content):
     database = connect.database_connect()
@@ -89,6 +95,8 @@ def report_submit(attack_username,defend_username,report_content):
     else:
         messagebox.showerror("Error","Your report on this account is still being checked")
         screens.report_screen(attack_username,defend_username)
+    mycursor.close()
+    database.close()
 
 
 def home_screen_welcome_image(username):
@@ -104,8 +112,12 @@ def home_screen_welcome_image(username):
     draw.text((30, 40),"Welcome Back, {a}".format(a=username),(0,0,0),font=font)
     draw = ImageDraw.Draw(img)
     img.save("Images\\welcome_back.png")
+    mycursor.close()
+    database.close()
+
 
 def registration_check(username,password,confirm_password,captcha,generated_captcha,account_type):
+    
     database = connect.database_connect()
     mycursor = database.cursor()
     if username=="" or password=="" or confirm_password=="" or captcha=="" or account_type=="":
@@ -141,8 +153,12 @@ def registration_check(username,password,confirm_password,captcha,generated_capt
             messagebox.showinfo("Success","Request to register account is successfully sent")
         
         screens.login_screen()
+    mycursor.close()
+    database.close()
+
 
 def home_screen_caller_util(username):
+   
     database = connect.database_connect()
     mycursor = database.cursor()
     account_type_check_query = "select Account_type from login where Username = '{a}';".format(a=username)
@@ -154,6 +170,9 @@ def home_screen_caller_util(username):
         screens.client_screen(username)
     elif account_type_check == "Worker":
         screens.worker_screen(username)
+    mycursor.close()
+    database.close()
+
 
 def about_worker(username):
     database = connect.database_connect()
@@ -161,6 +180,7 @@ def about_worker(username):
     about_worker_query = "select other_details.username, other_details.email, other_details.phone, other_details.address from other_details,matching where matching.client_username = '{a}' and matching.worker_username = other_details.username;".format(a=username)
     mycursor.execute(about_worker_query)
     return mycursor.fetchall()
+
 
 def home_screen_caller(username,password):
     database = connect.database_connect()
@@ -179,6 +199,9 @@ def home_screen_caller(username,password):
     else:
         home_screen_welcome_image(username)
         home_screen_caller_util(username)
+    mycursor.close()
+    database.close()
+
 
 def accounts_list():
     database = connect.database_connect()
@@ -222,6 +245,8 @@ def excuse_report(username,reported_username,reporting_username):
     mycursor.execute(excuse_query)
     database.commit()
     screens.report_list_screen(username)
+    mycursor.close()
+    database.close()
 
 def accept_report(username,reported_username,reporting_username):
     database = connect.database_connect()
@@ -234,6 +259,8 @@ def accept_report(username,reported_username,reporting_username):
     mycursor.execute(delete_query)
     database.commit()
     screens.report_list_screen(username)
+    mycursor.close()
+    database.close()
 
 def view_report(attack_username,defend_username):
     database = connect.database_connect()
@@ -251,6 +278,8 @@ def delete_account(username,deleted_user):
     matching_scheduler()
     messagebox.showinfo("Success","user {a} successfully deleted".format(a=deleted_user))
     screens.delete_user_screen(username)
+    mycursor.close()
+    database.close()
 
 def accept_collection(worker_username,client_username,garbage_amt):
     database = connect.database_connect()
@@ -265,6 +294,8 @@ def accept_collection(worker_username,client_username,garbage_amt):
     database.commit()
 
     screens.garbage_collection_screen(worker_username)
+    mycursor.close()
+    database.close()
 
 def claim_points(username):
     database = connect.database_connect()
@@ -274,6 +305,8 @@ def claim_points(username):
     database.commit()
     messagebox.showinfo("Congratulations!","You have recieved your reward")
     screens.perk_points_screen(username)
+    mycursor.close()
+    database.close()
 
 def accept_request(new_username,username):
     database = connect.database_connect()
@@ -293,6 +326,8 @@ def accept_request(new_username,username):
         matching_scheduler()
 
     screens.request_screen(username)
+    mycursor.close()
+    database.close()
 
 def other_details_updater(username,ans1,ans2,ans3,email,phone,address):
     database = connect.database_connect()
@@ -312,6 +347,8 @@ def other_details_updater(username,ans1,ans2,ans3,email,phone,address):
         database.commit()
     messagebox.showinfo("Success","Information Updated")
     home_screen_caller_util(username)
+    mycursor.close()
+    database.close()
 
 def forgot_password_changer(username,question,answer,new_password):
     database = connect.database_connect()
@@ -335,3 +372,5 @@ def forgot_password_changer(username,question,answer,new_password):
             database.commit()
             messagebox.showinfo("success","password successfully updated")
             screens.login_screen()
+    mycursor.close()
+    database.close()
